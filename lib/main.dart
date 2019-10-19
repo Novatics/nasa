@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'pages/NewGame.dart';
 import 'pages/JoinGame.dart';
+import 'pages/JoinGameForm.dart';
 
 void main() => runApp(MyApp());
 
@@ -11,6 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -23,7 +25,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Orbitar Home Page'),
     );
   }
 }
@@ -75,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Text('Join Game'),
                   onPressed: () => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => JoinGame()),
+                    MaterialPageRoute(builder: (context) => JoingGameForm()),
                   ),
                 ),
                 RaisedButton(
