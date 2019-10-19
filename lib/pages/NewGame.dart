@@ -1,13 +1,52 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-var _cells = ['cell 1', 'cell 2', 'cell 3'];
+class Telescopes extends StatefulWidget {
+  @override
+  _TelescopesState createState() => _TelescopesState();
+}
 
-List<String> _selects = [];
+class _TelescopesState extends State<Telescopes> {
+  List<String> _cells;
+  List<String> _telescopes;
 
-class NewGame extends StatelessWidget {
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      _cells = ['cell 1', 'cell 2', 'cell 3'];
+      _telescopes = [];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    Widget _buildCell(int id, List<String> cells, List<String> telescopes) {
+      return (Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          Text(
+            id.toString(),
+          ),
+          Text(cells[id]),
+          GestureDetector(
+              onTap: () {
+                if (telescopes.contains(cells[id])) {
+                  telescopes.remove(cells[id]);
+                  setState(() {
+                    _telescopes = telescopes;
+                  });
+                } else {
+                  setState(() {
+                    _telescopes = [..._telescopes, cells[id]];
+                  });
+                }
+              },
+              child: Text('Adicionar a lista')),
+        ],
+      ));
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -21,7 +60,7 @@ class NewGame extends StatelessWidget {
               child: AnimatedList(
                 initialItemCount: _cells.length,
                 itemBuilder: (context, index, animation) {
-                  return _buildCell(context, index);
+                  return _buildCell(index, _cells, _telescopes);
                 },
               ),
             ),
@@ -30,38 +69,14 @@ class NewGame extends StatelessWidget {
             ),
             Expanded(
                 child: ListView.builder(
-                    padding: const EdgeInsets.all(8),
-                    itemCount: _selects.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        height: 50,
-                        child: Center(child: Text('Item ${_selects[index]}')),
-                      );
-                    }))
+              itemBuilder: (context, index) {
+                return Text(_telescopes[index]);
+              },
+              itemCount: _telescopes.length,
+            )),
           ],
         ),
       ),
     );
   }
-}
-
-Widget _buildCell(BuildContext context, int id) {
-  return (Row(
-    mainAxisAlignment: MainAxisAlignment.spaceAround,
-    children: <Widget>[
-      Text(
-        id.toString(),
-      ),
-      Text(_cells[id]),
-      GestureDetector(
-          onTap: () {
-            if (_selects.contains(_cells[id])) {
-              _selects.remove(_cells[id]);
-            } else {
-              _selects.add(_cells[id]);
-            }
-          },
-          child: Text('Adicionar a lista'))
-    ],
-  ));
 }
