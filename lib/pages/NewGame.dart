@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-var _cells = ['cell 1', 'cell 2', 'cell 3', 'opaa'];
+var _cells = ['cell 1', 'cell 2', 'cell 3'];
 
 List<String> _selects = [];
 
