@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:museum/pages/JoinGame.dart';
+import 'package:geolocator/geolocator.dart';
 
 import 'pages/NewGame.dart';
+import 'pages/JoinGame.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  Position position = await Geolocator()
+      .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+  print(position);
+  return runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
