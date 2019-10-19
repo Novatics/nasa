@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'pages/NewGame.dart';
+import 'pages/JoinGame.dart';
 
 void main() => runApp(MyApp());
 
@@ -74,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Text('Join Game'),
                   onPressed: () => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => NewGame()),
+                    MaterialPageRoute(builder: (context) => JoinGame()),
                   ),
                 ),
                 RaisedButton(
