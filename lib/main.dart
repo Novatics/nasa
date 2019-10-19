@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:museum/pages/JoinGame.dart';
+import 'package:geolocator/geolocator.dart';
 
+import 'pages/Home.dart';
 import 'pages/NewGame.dart';
 import 'pages/JoinGame.dart';
 import 'pages/JoinGameForm.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  Position position = await Geolocator()
+      .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+  print(position);
+  return runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -84,7 +92,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Text('New Game'),
                   onPressed: () => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => NewGame()),
+                    MaterialPageRoute(builder: (context) => Telescopes()),
+                  ),
+                ),
+                RaisedButton(
+                  child: Text('Home'),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Home()),
                   ),
                 )
               ],
