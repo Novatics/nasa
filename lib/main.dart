@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:museum/pages/JoinGame.dart';
 import 'package:geolocator/geolocator.dart';
 
 import 'pages/NewGame.dart';
@@ -88,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Text('New Game'),
                   onPressed: () => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => NewGame()),
+                    MaterialPageRoute(builder: (context) => Telescopes()),
                   ),
                 )
               ],
