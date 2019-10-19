@@ -31,7 +31,7 @@ class _JoinGameState extends State<JoingGameForm> {
         automaticallyImplyLeading: false,
       ),
       body: Center(
-        child: Text("Oi"),
+        child: Text("OI"),
       ),
     );
   }
