@@ -44,9 +44,8 @@ class _JoinGameState extends State<JoinGame> {
         title: Text('Join Game'),
       ),
       body: AspectRatio(
-        aspectRatio: controller.value.aspectRatio,
-        child: CameraPreview(controller)
-      ),
+          aspectRatio: controller.value.aspectRatio,
+          child: CameraPreview(controller)),
     );
   }
 }
