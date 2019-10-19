@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'pages/JoinGame.dart';
 import 'pages/NewGame.dart';
 
 void main() => runApp(MyApp());
@@ -61,27 +60,33 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Column(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          RaisedButton(
-            child: Text('Join Game'),
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => JoinGame()),
+      body: Center(
+          widthFactor: 100,
+          child: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Column(
+              // Center is a layout widget. It takes a single child and positions it
+              // in the middle of the parent.
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                RaisedButton(
+                  child: Text('Join Game'),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => NewGame()),
+                  ),
+                ),
+                RaisedButton(
+                  child: Text('New Game'),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => NewGame()),
+                  ),
+                )
+              ],
             ),
-          ),
-          RaisedButton(
-            child: Text('New Game'),
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => NewGame()),
-            ),
-          )
-        ],
-      ),
+          )),
     );
   }
 }
