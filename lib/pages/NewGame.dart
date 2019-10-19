@@ -27,7 +27,17 @@ class NewGame extends StatelessWidget {
             ),
             Expanded(
               child: Text('Items selecionados'),
-            )
+            ),
+            Expanded(
+                child: ListView.builder(
+                    padding: const EdgeInsets.all(8),
+                    itemCount: _selects.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                        height: 50,
+                        child: Center(child: Text('Item ${_selects[index]}')),
+                      );
+                    }))
           ],
         ),
       ),
