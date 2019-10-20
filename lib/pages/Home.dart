@@ -14,10 +14,9 @@ class Home extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Padding(padding: const EdgeInsets.all(80.0)),
-            Expanded(
-              child: Image.asset('assets/images/logo.png'),
-            ),
-            Padding(padding: const EdgeInsets.all(100.0)),
+            ImageRotate(),
+            Image.asset('assets/images/orbitar.png'),
+            Padding(padding: const EdgeInsets.all(90.0)),
             Expanded(
               child: Column(
                 children: <Widget>[
@@ -48,5 +47,47 @@ class Home extends StatelessWidget {
         ),
       ),
     ));
+  }
+}
+
+class ImageRotate extends StatefulWidget {
+  @override
+  _ImageRotateState createState() => new _ImageRotateState();
+}
+
+class _ImageRotateState extends State<ImageRotate>
+    with SingleTickerProviderStateMixin {
+  AnimationController animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    animationController = new AnimationController(
+      vsync: this,
+      duration: new Duration(seconds: 7),
+    );
+
+    animationController.repeat();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Container(
+      alignment: Alignment.center,
+      child: new AnimatedBuilder(
+        animation: animationController,
+        child: new Container(
+          height: 150.0,
+          width: 150.0,
+          child: new Image.asset('assets/images/logo.png'),
+        ),
+        builder: (BuildContext context, Widget _widget) {
+          return new Transform.rotate(
+            angle: animationController.value * 6.3,
+            child: _widget,
+          );
+        },
+      ),
+    );
   }
 }
