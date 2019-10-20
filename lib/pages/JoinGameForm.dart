@@ -35,7 +35,7 @@ class _JoinGameState extends State<JoingGameForm> {
           new Container(
             child: 
             Image.asset('assets/images/logoJoin.png'),
-            margin: const EdgeInsets.only(top: 123),
+            margin: const EdgeInsets.only(top: 30),
             ),
           new Container(
             child: Text(
@@ -116,7 +116,8 @@ class _JoinGameState extends State<JoingGameForm> {
               onPressed: () {
                 if (_formKey.currentState.validate() && _codeKey.currentState.validate()) {
                   // If the form is valid, display a Snackbar.
-                  print("oi");
+                  print(code);
+                  print(nickname);
                 }
               },
               shape: RoundedRectangleBorder(
