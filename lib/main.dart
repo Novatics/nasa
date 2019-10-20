@@ -6,6 +6,7 @@ import 'pages/Home.dart';
 import 'pages/NewGame.dart';
 import 'pages/JoinGame.dart';
 import 'pages/JoinGameForm.dart';
+import 'pages/3D.dart';
 
 void main() async {
   Position position = await Geolocator()
@@ -100,6 +101,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => Home()),
+                  ),
+                ),
+                RaisedButton(
+                  child: Text('3D'),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Estacao()),
                   ),
                 )
               ],
