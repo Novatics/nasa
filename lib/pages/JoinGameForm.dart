@@ -33,7 +33,7 @@ class _JoinGameState extends State<JoingGameForm> {
         child: Column(children: <Widget>[
           new Container(
             child: 
-            Image.asset('assets/images/logo.png'),
+            Image.asset('assets/images/logoJoin.png'),
             margin: const EdgeInsets.only(top: 123),
             ),
           new Container(
@@ -131,6 +131,13 @@ class _JoinGameState extends State<JoingGameForm> {
             width: 260,
             height: 50,
             margin: const EdgeInsets.only(top: 60),
+            decoration: new BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Color.fromRGBO(60, 51, 82, 0.15),
+                  blurRadius: 10.0, // has the effect of softening the shadow
+                )
+              ])
           )
         ],),
       ),
