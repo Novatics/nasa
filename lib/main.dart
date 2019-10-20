@@ -5,6 +5,7 @@ import 'pages/HUD.dart';
 import 'pages/Home.dart';
 import 'pages/JoinGameForm.dart';
 import 'pages/NewGame.dart';
+import 'pages/Congratulations.dart';
 
 void main() async {
   Position position = await Geolocator()
@@ -106,6 +107,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => HUD()),
+                  ),
+                ),
+                RaisedButton(
+                  child: Text('Congratulations'),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Congratulations()),
                   ),
                 )
               ],
