@@ -24,6 +24,7 @@ class _JoinGameState extends State<JoingGameForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0.0,
@@ -113,7 +114,10 @@ class _JoinGameState extends State<JoingGameForm> {
           new Container(
             child: new RaisedButton(
               onPressed: () {
-                print("clicado");
+                if (_formKey.currentState.validate() && _codeKey.currentState.validate()) {
+                  // If the form is valid, display a Snackbar.
+                  print("oi");
+                }
               },
               shape: RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(25.0),
