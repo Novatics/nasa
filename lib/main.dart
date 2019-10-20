@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:museum/pages/JoinGame.dart';
 import 'package:geolocator/geolocator.dart';
 
+import 'pages/HUD.dart';
 import 'pages/Home.dart';
-import 'pages/NewGame.dart';
-import 'pages/JoinGame.dart';
 import 'pages/JoinGameForm.dart';
+import 'pages/NewGame.dart';
 
 void main() async {
   Position position = await Geolocator()
@@ -100,6 +99,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => Home()),
+                  ),
+                ),
+                RaisedButton(
+                  child: Text('QR'),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HUD()),
                   ),
                 )
               ],
