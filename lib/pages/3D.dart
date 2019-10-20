@@ -10,10 +10,10 @@ class Estacao extends StatelessWidget {
       ),
       body: new Center(
         child: new Object3D(
-          
-          size: const Size(400.0, 400.0),
-          path: "assets/3ds/file.obj",
+          size: const Size(100.0, 100.0),
+          path: "assets/3ds/fgb-ext_closed.obj",
           asset: true,
+          zoom: 50000,
         ),
       ),
     );
