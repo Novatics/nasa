@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'JoinGameForm.dart';
+
 
 class Home extends StatelessWidget {
   void doSomething() {
@@ -29,7 +31,10 @@ class Home extends StatelessWidget {
                           MaterialButton(
                             child: Text('Entrar em um jogo',
                                 style: TextStyle(fontSize: 16.0)),
-                            onPressed: doSomething,
+                            onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => JoingGameForm()),
+                              ),
                             color: Color.fromRGBO(254, 133, 110, 1),
                             textColor: Colors.white,
                             height: 50.0,
