@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'HUD.dart';
+
 class JoingGameForm extends StatefulWidget {
   @override
   _JoinGameState createState() => _JoinGameState();
@@ -116,6 +118,10 @@ class _JoinGameState extends State<JoingGameForm> {
                         // If the form is valid, display a Snackbar.
                         print(code);
                         print(nickname);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => HUD()),
+                        );
                       }
                     },
                     shape: RoundedRectangleBorder(
