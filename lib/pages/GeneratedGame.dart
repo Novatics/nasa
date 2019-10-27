@@ -32,7 +32,7 @@ class GeneratedGame extends StatelessWidget {
                   fontSize: 12,
                 ),
               ),
-              Text(
+              SelectableText(
                 code.toString(),
                 style: TextStyle(
                   fontSize: 24,
@@ -52,6 +52,7 @@ class GeneratedGame extends StatelessWidget {
                     'Voltar para o início',
                     style: TextStyle(
                       color: Colors.white,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   onPressed: () => Navigator.of(context).popUntil(
