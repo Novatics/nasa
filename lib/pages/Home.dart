@@ -4,6 +4,8 @@ import 'JoinGameForm.dart';
 import 'NewGame.dart';
 
 class Home extends StatelessWidget {
+  static const routeName = 'Home';
+
   void doSomething() {
     print('Chamou!');
   }
@@ -30,13 +32,12 @@ class Home extends StatelessWidget {
                       child: Column(
                         children: <Widget>[
                           MaterialButton(
-                            child: Text('Entrar em um jogo',
-                                style: TextStyle(fontSize: 16.0)),
-                            onPressed: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => JoingGameForm(),
-                              ),
+                            child: Text(
+                              'Entrar em um jogo',
+                              style: TextStyle(fontSize: 16.0),
+                            ),
+                            onPressed: () => Navigator.of(context).pushNamed(
+                              JoinGameForm.routeName,
                             ),
                             color: Color.fromRGBO(254, 133, 110, 1),
                             textColor: Colors.white,
@@ -45,20 +46,20 @@ class Home extends StatelessWidget {
                             shape: StadiumBorder(),
                           ),
                           Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: MaterialButton(
-                                child: Text('Novo jogo',
-                                    style: TextStyle(fontSize: 16.0)),
-                                onPressed: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => NewGame(),
-                                  ),
-                                ),
-                                textColor: Color.fromRGBO(254, 133, 110, 1),
-                                height: 50.0,
-                                minWidth: 300.0,
-                              ))
+                            padding: const EdgeInsets.all(16.0),
+                            child: MaterialButton(
+                              child: Text(
+                                'Novo jogo',
+                                style: TextStyle(fontSize: 16.0),
+                              ),
+                              onPressed: () => Navigator.of(context).pushNamed(
+                                NewGame.routeName,
+                              ),
+                              textColor: Color.fromRGBO(254, 133, 110, 1),
+                              height: 50.0,
+                              minWidth: 300.0,
+                            ),
+                          )
                         ],
                       ),
                     ),

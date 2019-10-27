@@ -6,6 +6,8 @@ import 'package:museum/pages/GeneratedGame.dart';
 import 'package:museum/services/api.dart' as api;
 
 class NewGame extends StatefulWidget {
+  static const routeName = 'NewGame';
+
   @override
   _NewGameState createState() => _NewGameState();
 }
@@ -29,7 +31,10 @@ class _NewGameState extends State<NewGame> {
     });
 
     api.createGame(selectedSatellites).then((data) {
-      Navigator.of(context).pushNamed(GeneratedGame.routeName, arguments: data);
+      Navigator.of(context).pushNamed(
+        GeneratedGame.routeName,
+        arguments: data,
+      );
     });
   }
 

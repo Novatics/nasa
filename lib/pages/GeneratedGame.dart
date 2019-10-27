@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:museum/pages/Home.dart';
 
 class GeneratedGame extends StatelessWidget {
-  static const routeName = '/game/show';
+  static const routeName = 'GeneratedGame';
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +46,7 @@ class GeneratedGame extends StatelessWidget {
                     ),
                   ),
                   onPressed: () => Navigator.of(context).popUntil(
-                    ModalRoute.withName('/'),
+                    ModalRoute.withName(Home.routeName),
                   ),
                   color: Color.fromRGBO(254, 133, 110, 1),
                   shape: RoundedRectangleBorder(

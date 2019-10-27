@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'HUD.dart';
 
-class JoingGameForm extends StatefulWidget {
+class JoinGameForm extends StatefulWidget {
+  static const routeName = 'JoinGameForm';
+
   @override
   _JoinGameState createState() => _JoinGameState();
 }
 
-class _JoinGameState extends State<JoingGameForm> {
+class _JoinGameState extends State<JoinGameForm> {
   final _formKey = GlobalKey<FormState>();
   final _codeKey = GlobalKey<FormState>();
   String nickname = "";
@@ -118,9 +120,8 @@ class _JoinGameState extends State<JoingGameForm> {
                         // If the form is valid, display a Snackbar.
                         print(code);
                         print(nickname);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => HUD()),
+                        Navigator.of(context).pushNamed(
+                          HUD.routeName,
                         );
                       }
                     },
