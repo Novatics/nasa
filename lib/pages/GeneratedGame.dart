@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:museum/pages/Home.dart';
 
 class GeneratedGame extends StatelessWidget {
@@ -7,15 +8,23 @@ class GeneratedGame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String code = ModalRoute.of(context).settings.arguments;
+    final qrCode = new QrCode(4, QrErrorCorrectLevel.L);
+    qrCode.addData("code");
+    qrCode.make();
 
     return Material(
       color: Colors.white,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Column(
             children: <Widget>[
+              QrImage(
+                data: code,
+                version: QrVersions.auto,
+                size: 200.0,
+              ),
               Text(
                 'Código de acesso'.toUpperCase(),
                 style: TextStyle(
