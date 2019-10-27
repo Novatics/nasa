@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'JoinGameForm.dart';
+import 'NewGame.dart';
 
 class Home extends StatelessWidget {
   void doSomething() {
@@ -33,7 +35,8 @@ class Home extends StatelessWidget {
                             onPressed: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => JoingGameForm()),
+                                builder: (context) => JoingGameForm(),
+                              ),
                             ),
                             color: Color.fromRGBO(254, 133, 110, 1),
                             textColor: Colors.white,
@@ -46,7 +49,12 @@ class Home extends StatelessWidget {
                               child: MaterialButton(
                                 child: Text('Novo jogo',
                                     style: TextStyle(fontSize: 16.0)),
-                                onPressed: doSomething,
+                                onPressed: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => NewGame(),
+                                  ),
+                                ),
                                 textColor: Color.fromRGBO(254, 133, 110, 1),
                                 height: 50.0,
                                 minWidth: 300.0,

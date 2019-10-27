@@ -1,82 +1,73 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Telescopes extends StatefulWidget {
+import 'package:museum/models/satellite.dart';
+import 'package:museum/services/api.dart' as api;
+
+class NewGame extends StatefulWidget {
   @override
-  _TelescopesState createState() => _TelescopesState();
+  _NewGameState createState() => _NewGameState();
 }
 
-class _TelescopesState extends State<Telescopes> {
-  List<String> _cells;
-  List<String> _telescopes;
+class _NewGameState extends State<NewGame> {
+  List<Satellite> satellites;
+  List<int> selections;
 
   @override
   void initState() {
     super.initState();
     setState(() {
-      _cells = ['cell 1', 'cell 2', 'cell 3'];
-      _telescopes = [];
+      satellites = [];
+      selections = [];
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    Widget _buildCell(int id, List<String> cells, List<String> telescopes) {
-      return (Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          Text(
-            id.toString(),
-          ),
-          Text(cells[id]),
-          GestureDetector(
-              onTap: () {
-                if (telescopes.contains(cells[id])) {
-                  telescopes.remove(cells[id]);
-                  setState(() {
-                    _telescopes = telescopes;
-                  });
-                } else {
-                  setState(() {
-                    _telescopes = [..._telescopes, cells[id]];
-                  });
-                }
-              },
-              child: Text('Adicionar a lista')),
-        ],
-      ));
-    }
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'New Game',
-        ),
-      ),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: AnimatedList(
-                initialItemCount: _cells.length,
-                itemBuilder: (context, index, animation) {
-                  return _buildCell(index, _cells, _telescopes);
-                },
+    return FutureBuilder<List<Satellite>>(
+      future: api.getSatellites(),
+      builder: (BuildContext context, AsyncSnapshot<List<Satellite>> snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.done:
+            if (snapshot.hasError) {
+              return Text('Error on fetching data');
+            }
+            return SafeArea(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Text('sdf'),
+                    ),
+                  ),
+                  Expanded(child: _satellitesListWidget(snapshot.data)),
+                ],
               ),
-            ),
-            Expanded(
-              child: Text('Items selecionados'),
-            ),
-            Expanded(
-                child: ListView.builder(
-              itemBuilder: (context, index) {
-                return Text(_telescopes[index]);
-              },
-              itemCount: _telescopes.length,
-            )),
-          ],
-        ),
-      ),
+            );
+          default:
+            return Text('Data Fetched');
+        }
+      },
     );
   }
+}
+
+_satellitesListWidget(List<Satellite> satellites) {
+  return ListView.builder(
+    itemCount: satellites.length,
+    itemBuilder: (context, position) {
+      return GestureDetector(
+        child: Card(
+          child: Padding(
+            padding: EdgeInsets.all(16),
+            child: Container(child: Text(satellites[position].name)),
+          ),
+        ),
+        onTap: () => print('tapped'),
+      );
+    },
+  );
 }
