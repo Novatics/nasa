@@ -8,7 +8,7 @@ class GeneratedGame extends StatelessWidget {
   Widget build(BuildContext context) {
     final String code = ModalRoute.of(context).settings.arguments;
 
-    return Container(
+    return Material(
       color: Colors.white,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
