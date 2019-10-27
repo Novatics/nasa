@@ -13,10 +13,12 @@ Future<List<Satellite>> getSatellites() async {
 }
 
 Future<String> createGame(List<int> satellitesIds) async {
-  final response = await http.post(
+  var response = await http.post(
     '$backendBaseUrl/games',
-    body: {'satellites': json.encode(satellitesIds)},
+    headers: {"Content-Type": "application/json"},
+    body: json.encode({'satellites': satellitesIds}),
   );
-  final parsedBody = json.decode(utf8.decode(response.bodyBytes));
+  var parsedBody = json.decode(utf8.decode(response.bodyBytes));
+
   return parsedBody['code'];
 }

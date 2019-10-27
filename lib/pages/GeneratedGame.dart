@@ -40,7 +40,7 @@ class GeneratedGame extends StatelessWidget {
                 width: 260,
                 child: FlatButton(
                   child: Text(
-                    'Baixar QR codes',
+                    'Voltar para o início',
                     style: TextStyle(
                       color: Colors.white,
                     ),

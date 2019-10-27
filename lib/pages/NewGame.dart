@@ -30,6 +30,8 @@ class _NewGameState extends State<NewGame> {
       if (selected) selectedSatellites.add(satellites[index].id);
     });
 
+    if (selectedSatellites.length == 0) return;
+
     api.createGame(selectedSatellites).then((data) {
       Navigator.of(context).pushNamed(
         GeneratedGame.routeName,
