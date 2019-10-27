@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 List<CameraDescription> cameras;
 
 class JoinGame extends StatefulWidget {
+  static const routeName = 'JoinGame';
+
   @override
   _JoinGameState createState() => _JoinGameState();
 }

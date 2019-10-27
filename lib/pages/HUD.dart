@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:qr_mobile_vision/qr_camera.dart';
 
 class HUD extends StatefulWidget {
+  static const routeName = 'HUD';
+
   @override
   State<StatefulWidget> createState() => _HUDState();
 }
