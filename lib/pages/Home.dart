@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'JoinGameForm.dart';
 
-
 class Home extends StatelessWidget {
   void doSomething() {
     print('Chamou!');
@@ -32,9 +31,10 @@ class Home extends StatelessWidget {
                             child: Text('Entrar em um jogo',
                                 style: TextStyle(fontSize: 16.0)),
                             onPressed: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => JoingGameForm()),
-                              ),
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => JoingGameForm()),
+                            ),
                             color: Color.fromRGBO(254, 133, 110, 1),
                             textColor: Colors.white,
                             height: 50.0,
