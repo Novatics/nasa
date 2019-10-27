@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:async/async.dart';
 
 import 'package:museum/models/satellite.dart';
+import 'package:museum/pages/GeneratedGame.dart';
 import 'package:museum/services/api.dart' as api;
 
 class NewGame extends StatefulWidget {
@@ -18,6 +18,18 @@ class _NewGameState extends State<NewGame> {
     selections[position] = !selections[position];
     setState(() {
       selections = selections;
+    });
+  }
+
+  createNewGame() {
+    List<int> selectedSatellites = [];
+
+    selections.asMap().forEach((index, selected) {
+      if (selected) selectedSatellites.add(satellites[index].id);
+    });
+
+    api.createGame(selectedSatellites).then((data) {
+      Navigator.of(context).pushNamed(GeneratedGame.routeName, arguments: data);
     });
   }
 
@@ -88,7 +100,7 @@ class _NewGameState extends State<NewGame> {
                     style: TextStyle(color: Colors.white),
                   ),
                   color: Color.fromRGBO(254, 133, 110, 1),
-                  onPressed: () => print('pr'),
+                  onPressed: () => createNewGame(),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25),
                     side: BorderSide(

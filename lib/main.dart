@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:museum/pages/GeneratedGame.dart';
+import 'package:museum/pages/JoinGame.dart';
+import 'package:museum/pages/NewGame.dart';
 
 import 'pages/Home.dart';
 
@@ -15,7 +18,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Home(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => Home(),
+        '/game/new': (context) => NewGame(),
+        '/game/join': (context) => JoinGame(),
+        '/game/show': (contex) => GeneratedGame(),
+      },
     );
   }
 }
