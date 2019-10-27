@@ -76,6 +76,29 @@ class _NewGameState extends State<NewGame> {
                 addOrRemoveSatellite,
               ),
             ),
+            Align(
+              alignment: Alignment.center,
+              child: Container(
+                margin: EdgeInsets.all(20),
+                width: 260,
+                height: 50,
+                child: RaisedButton(
+                  child: Text(
+                    'Criar jogo',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  color: Color.fromRGBO(254, 133, 110, 1),
+                  onPressed: () => print('pr'),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
+                    side: BorderSide(
+                      width: 1,
+                      color: Color.fromRGBO(144, 144, 144, 1),
+                    ),
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),
