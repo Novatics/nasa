@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:museum/models/player.dart';
 import 'package:qr_mobile_vision/qr_camera.dart';
 
 class HUD extends StatefulWidget {
@@ -21,6 +22,8 @@ class _HUDState extends State<HUD> {
 
   @override
   Widget build(BuildContext context) {
+    final Player player = ModalRoute.of(context).settings.arguments;
+    print(player.nickname);
     return Scaffold(
         body: Stack(
       children: <Widget>[
@@ -30,7 +33,6 @@ class _HUDState extends State<HUD> {
             style: TextStyle(color: Colors.red),
           ),
           qrCodeCallback: (code) {
-            print(code);
             setState(() {
               qr = code;
             });
