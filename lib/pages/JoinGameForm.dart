@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:museum/services/api.dart' as api;
 
 import 'HUD.dart';
 
@@ -19,11 +20,13 @@ class _JoinGameState extends State<JoinGameForm> {
     super.initState();
   }
 
-  // @override
-  // void dispose() {
-  //   controller?.dispose();
-  //   super.dispose();
-  // }
+  joinGame(String code, String nickname) {
+    api.joinGame(code, nickname).then((player) {
+      Navigator.of(context).pushNamed(
+        HUD.routeName,
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,12 +120,7 @@ class _JoinGameState extends State<JoinGameForm> {
                     onPressed: () {
                       if (_formKey.currentState.validate() &&
                           _codeKey.currentState.validate()) {
-                        // If the form is valid, display a Snackbar.
-                        print(code);
-                        print(nickname);
-                        Navigator.of(context).pushNamed(
-                          HUD.routeName,
-                        );
+                        joinGame(code, nickname);
                       }
                     },
                     shape: RoundedRectangleBorder(
