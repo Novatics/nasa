@@ -24,6 +24,7 @@ class _JoinGameState extends State<JoinGameForm> {
     api.joinGame(code, nickname).then((player) {
       Navigator.of(context).pushNamed(
         HUD.routeName,
+        arguments: player,
       );
     });
   }

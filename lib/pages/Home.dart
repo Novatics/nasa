@@ -6,10 +6,6 @@ import 'NewGame.dart';
 class Home extends StatelessWidget {
   static const routeName = 'Home';
 
-  void doSomething() {
-    print('Chamou!');
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
