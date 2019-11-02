@@ -4,8 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:museum/models/coordinate.dart';
 import 'package:museum/models/player.dart';
-import 'package:qr_mobile_vision/qr_camera.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:location/location.dart';
+import 'package:sensors/sensors.dart';
+import 'package:vector_math/vector_math_64.dart' as vector;
+import 'package:arcore_flutter_plugin/arcore_flutter_plugin.dart';
 import 'package:museum/services/api.dart' as api;
 
 class HUD extends StatefulWidget {
@@ -16,12 +18,19 @@ class HUD extends StatefulWidget {
 }
 
 class _HUDState extends State<HUD> {
+  ArCoreController arCoreController;
+  String objectSelected = 'fgb-ext_closed.sfb';
   String qr = '';
-  Position position;
   Player player;
-  var geolocator = Geolocator();
-  var locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 15);
+  Coordinate coordinate;
+  LocationData locationData;
+  String x;
+  String y;
+  String z;
+  List<StreamSubscription<dynamic>> _streamSubscriptions =
+      <StreamSubscription<dynamic>>[];
   var positionStream;
+  var location = new Location();
 
   String getCurrentSatellite() {
     return player.availableSatellites.where((s) {
@@ -33,10 +42,30 @@ class _HUDState extends State<HUD> {
   void initState() {
     super.initState();
 
-    Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.best).then((position) async {
+    _streamSubscriptions.add(gyroscopeEvents.listen((GyroscopeEvent event) {
+      setState(() {
+        x = event.x.toString();
+        y = event.y.toString();
+        z = event.z.toString();
+      });
+    }));
+
+    _streamSubscriptions.add(location
+        .onLocationChanged()
+        .listen((LocationData currentLocation) async {
       String satelliteId = getCurrentSatellite();
-      Coordinate coordinate = await api.getCoordinates(satelliteId, position.latitude.toString(), position.longitude.toString(), position.altitude.toString());
-    });
+      coordinate = await api.getCoordinates(
+        satelliteId,
+        currentLocation.latitude.toString(),
+        currentLocation.longitude.toString(),
+        currentLocation.altitude.toString(),
+      );
+
+      setState(() {
+        locationData = currentLocation;
+        coordinate = coordinate;
+      });
+    }));
   }
 
   @override
@@ -46,19 +75,13 @@ class _HUDState extends State<HUD> {
     });
 
     return Scaffold(
-        body: Stack(
-      children: <Widget>[
-        new QrCamera(
-          onError: (context, error) => Text(
-            error.toString(),
-            style: TextStyle(color: Colors.red),
+      body: Stack(
+        children: <Widget>[
+          ArCoreView(
+            onArCoreViewCreated: _onArCoreViewCreated,
+            enableTapRecognizer: true,
           ),
-          qrCodeCallback: (code) {
-            setState(() {
-              qr = code;
-            });
-          },
-          child: Stack(
+          Stack(
             alignment: AlignmentDirectional.bottomStart,
             children: <Widget>[
               Positioned.fill(
@@ -70,7 +93,12 @@ class _HUDState extends State<HUD> {
               Column(children: <Widget>[
                 Expanded(
                   child: Align(
-                    child: Text(qr, style: TextStyle(color: Colors.redAccent)),
+                    child: FloatingActionButton(
+                      child: Icon(
+                        Icons.add,
+                      ),
+                      onPressed: () => _addSatellite(),
+                    ),
                     alignment: Alignment.center,
                   ),
                 ),
@@ -83,8 +111,53 @@ class _HUDState extends State<HUD> {
               ]),
             ],
           ),
+        ],
+      ),
+    );
+  }
+
+  void _onArCoreViewCreated(ArCoreController controller) {
+    arCoreController = controller;
+    arCoreController.onNodeTap = (name) => onTapHandler(name);
+  }
+
+  void _addSatellite() {
+    final satelliteNode = ArCoreReferenceNode(
+      name: objectSelected,
+      obcject3DFileName: objectSelected,
+      position: vector.Vector3(0.0, -0.5, -2.0),
+    );
+
+    arCoreController.addArCoreNode(satelliteNode);
+  }
+
+  void onTapHandler(String name) {
+    showDialog<void>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        content: Row(
+          children: <Widget>[
+            Text('Remover $name?'),
+            IconButton(
+                icon: Icon(
+                  Icons.delete,
+                ),
+                onPressed: () {
+                  arCoreController.removeNode(nodeName: name);
+                  Navigator.pop(context);
+                })
+          ],
         ),
-      ],
-    ));
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    arCoreController.dispose();
+    for (StreamSubscription<dynamic> subscription in _streamSubscriptions) {
+      subscription.cancel();
+    }
   }
 }
