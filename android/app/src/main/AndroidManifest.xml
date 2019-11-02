@@ -2,6 +2,7 @@
     package="com.example.museum">
 
     <!-- Permissions -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
 
     <!-- Indicates that app requires ARCore ("AR Required"). Ensures app is only

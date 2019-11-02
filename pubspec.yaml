@@ -19,7 +19,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  geolocator: ^5.1.4+2
+  location: ^2.3.5
+  sensors: ^0.4.1+1
   arcore_flutter_plugin: ^0.0.3
   camera: ^0.5.6+1
   qr_mobile_vision: ^0.2.2

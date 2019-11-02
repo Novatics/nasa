@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:museum/models/coordinate.dart';
 import 'package:museum/models/player.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:location/location.dart';
+import 'package:sensors/sensors.dart';
 import 'package:arcore_flutter_plugin/arcore_flutter_plugin.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 import 'package:museum/services/api.dart' as api;
@@ -17,11 +20,16 @@ class HUD extends StatefulWidget {
 class _HUDState extends State<HUD> {
   ArCoreController arCoreController;
   String qr = '';
-  Position position;
   Player player;
-  var geolocator = Geolocator();
-  var locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 15);
+  Coordinate coordinate;
+  LocationData locationData;
+  String x;
+  String y;
+  String z;
+  List<StreamSubscription<dynamic>> _streamSubscriptions =
+      <StreamSubscription<dynamic>>[];
   var positionStream;
+  var location = new Location();
 
   String getCurrentSatellite() {
     return player.availableSatellites.where((s) {
@@ -33,10 +41,30 @@ class _HUDState extends State<HUD> {
   void initState() {
     super.initState();
 
-    Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.best).then((position) async {
+    _streamSubscriptions.add(gyroscopeEvents.listen((GyroscopeEvent event) {
+      setState(() {
+        x = event.x.toString();
+        y = event.y.toString();
+        z = event.z.toString();
+      });
+    }));
+
+    _streamSubscriptions.add(location
+        .onLocationChanged()
+        .listen((LocationData currentLocation) async {
       String satelliteId = getCurrentSatellite();
-      Coordinate coordinate = await api.getCoordinates(satelliteId, position.latitude.toString(), position.longitude.toString(), position.altitude.toString());
-    });
+      coordinate = await api.getCoordinates(
+        satelliteId,
+        currentLocation.latitude.toString(),
+        currentLocation.longitude.toString(),
+        currentLocation.altitude.toString(),
+      );
+
+      setState(() {
+        locationData = currentLocation;
+        coordinate = coordinate;
+      });
+    }));
   }
 
   @override
@@ -108,5 +136,8 @@ class _HUDState extends State<HUD> {
   void dispose() {
     super.dispose();
     arCoreController.dispose();
+    for (StreamSubscription<dynamic> subscription in _streamSubscriptions) {
+      subscription.cancel();
+    }
   }
 }
