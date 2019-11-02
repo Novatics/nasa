@@ -6,8 +6,8 @@ import 'package:museum/models/coordinate.dart';
 import 'package:museum/models/player.dart';
 import 'package:location/location.dart';
 import 'package:sensors/sensors.dart';
-import 'package:arcore_flutter_plugin/arcore_flutter_plugin.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
+import 'package:arcore_flutter_plugin/arcore_flutter_plugin.dart';
 import 'package:museum/services/api.dart' as api;
 
 class HUD extends StatefulWidget {
@@ -19,6 +19,7 @@ class HUD extends StatefulWidget {
 
 class _HUDState extends State<HUD> {
   ArCoreController arCoreController;
+  String objectSelected = 'fgb-ext_closed.sfb';
   String qr = '';
   Player player;
   Coordinate coordinate;
@@ -78,6 +79,7 @@ class _HUDState extends State<HUD> {
         children: <Widget>[
           ArCoreView(
             onArCoreViewCreated: _onArCoreViewCreated,
+            enableTapRecognizer: true,
           ),
           Stack(
             alignment: AlignmentDirectional.bottomStart,
@@ -91,7 +93,12 @@ class _HUDState extends State<HUD> {
               Column(children: <Widget>[
                 Expanded(
                   child: Align(
-                    child: Text(qr, style: TextStyle(color: Colors.redAccent)),
+                    child: FloatingActionButton(
+                      child: Icon(
+                        Icons.add,
+                      ),
+                      onPressed: () => _addSatellite(),
+                    ),
                     alignment: Alignment.center,
                   ),
                 ),
@@ -109,27 +116,40 @@ class _HUDState extends State<HUD> {
     );
   }
 
-  void _onArCoreViewCreated(ArCoreController _arController) {
-    arCoreController = _arController;
-
-    _addCylindre(arCoreController);
+  void _onArCoreViewCreated(ArCoreController controller) {
+    arCoreController = controller;
+    arCoreController.onNodeTap = (name) => onTapHandler(name);
   }
 
-  void _addCylindre(ArCoreController _controller) {
-    final material = ArCoreMaterial(
-      color: Colors.red,
-      reflectance: 1.0,
-    );
-    final cylindre = ArCoreCylinder(
-      materials: [material],
-      radius: 0.5,
-      height: 0.3,
-    );
-    final node = ArCoreNode(
-      shape: cylindre,
+  void _addSatellite() {
+    final satelliteNode = ArCoreReferenceNode(
+      name: objectSelected,
+      obcject3DFileName: objectSelected,
       position: vector.Vector3(0.0, -0.5, -2.0),
     );
-    _controller.addArCoreNode(node);
+
+    arCoreController.addArCoreNode(satelliteNode);
+  }
+
+  void onTapHandler(String name) {
+    showDialog<void>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        content: Row(
+          children: <Widget>[
+            Text('Remover $name?'),
+            IconButton(
+                icon: Icon(
+                  Icons.delete,
+                ),
+                onPressed: () {
+                  arCoreController.removeNode(nodeName: name);
+                  Navigator.pop(context);
+                })
+          ],
+        ),
+      ),
+    );
   }
 
   @override
