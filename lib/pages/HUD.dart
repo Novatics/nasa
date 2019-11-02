@@ -1,7 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:museum/models/coordinate.dart';
 import 'package:museum/models/player.dart';
 import 'package:qr_mobile_vision/qr_camera.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:museum/services/api.dart' as api;
 
 class HUD extends StatefulWidget {
   static const routeName = 'HUD';
@@ -12,18 +17,34 @@ class HUD extends StatefulWidget {
 
 class _HUDState extends State<HUD> {
   String qr = '';
+  Position position;
+  Player player;
+  var geolocator = Geolocator();
+  var locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 15);
+  var positionStream;
+
+  String getCurrentSatellite() {
+    return player.availableSatellites.where((s) {
+      return !player.collectedSatellites.contains(s);
+    }).first;
+  }
 
   @override
   void initState() {
     super.initState();
 
-    setState(() {});
+    Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.best).then((position) async {
+      String satelliteId = getCurrentSatellite();
+      Coordinate coordinate = await api.getCoordinates(satelliteId, position.latitude.toString(), position.longitude.toString(), position.altitude.toString());
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final Player player = ModalRoute.of(context).settings.arguments;
-    print(player.nickname);
+    setState(() {
+      player = ModalRoute.of(context).settings.arguments;
+    });
+
     return Scaffold(
         body: Stack(
       children: <Widget>[

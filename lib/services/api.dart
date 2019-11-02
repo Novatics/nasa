@@ -1,13 +1,14 @@
 import 'dart:async';
 
 import 'package:http/http.dart' as http;
+import 'package:museum/models/coordinate.dart';
 import 'package:museum/models/player.dart';
 import 'dart:convert';
 
 import '../models/satellite.dart';
 
-final dataBaseUrl = 'http://10.0.2.2:8000/api/v1';
-final backendBaseUrl = 'http://10.0.2.2:3000';
+final dataBaseUrl = 'https://orbitar-data-api.herokuapp.com/api/v1';
+final backendBaseUrl = 'http://32e411f3.ngrok.io';
 final headers = {"Content-Type": "application/json"};
 
 Future<List<Satellite>> getSatellites() async {
@@ -35,4 +36,13 @@ Future<Player> joinGame(String code, String nickname) async {
   var parsedBody = json.decode(utf8.decode(response.bodyBytes));
 
   return Player.fromJson(parsedBody);
+}
+
+Future<Coordinate> getCoordinates(String satelliteId, String latitude, String longitude, String altitude) async {
+  var response = await http.get('$dataBaseUrl/coordinates/$satelliteId/?lat=$latitude&lon=$longitude&alt=$altitude',
+      headers: headers);
+
+  var parsedBody = json.decode(utf8.decode(response.bodyBytes));
+
+  return Coordinate.fromJson(parsedBody);
 }

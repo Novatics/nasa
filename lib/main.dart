@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:museum/pages/GeneratedGame.dart';
 import 'package:museum/pages/HUD.dart';
 import 'package:museum/pages/JoinGame.dart';
@@ -8,9 +7,6 @@ import 'package:museum/pages/NewGame.dart';
 import 'package:museum/pages/Home.dart';
 
 void main() async {
-  Position position = await Geolocator()
-      .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
-  print(position);
   return runApp(MyApp());
 }
 
