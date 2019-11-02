@@ -1,11 +1,10 @@
-import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:museum/models/coordinate.dart';
 import 'package:museum/models/player.dart';
-import 'package:qr_mobile_vision/qr_camera.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:arcore_flutter_plugin/arcore_flutter_plugin.dart';
+import 'package:vector_math/vector_math_64.dart' as vector;
 import 'package:museum/services/api.dart' as api;
 
 class HUD extends StatefulWidget {
@@ -16,6 +15,7 @@ class HUD extends StatefulWidget {
 }
 
 class _HUDState extends State<HUD> {
+  ArCoreController arCoreController;
   String qr = '';
   Position position;
   Player player;
@@ -46,19 +46,12 @@ class _HUDState extends State<HUD> {
     });
 
     return Scaffold(
-        body: Stack(
-      children: <Widget>[
-        new QrCamera(
-          onError: (context, error) => Text(
-            error.toString(),
-            style: TextStyle(color: Colors.red),
+      body: Stack(
+        children: <Widget>[
+          ArCoreView(
+            onArCoreViewCreated: _onArCoreViewCreated,
           ),
-          qrCodeCallback: (code) {
-            setState(() {
-              qr = code;
-            });
-          },
-          child: Stack(
+          Stack(
             alignment: AlignmentDirectional.bottomStart,
             children: <Widget>[
               Positioned.fill(
@@ -83,8 +76,37 @@ class _HUDState extends State<HUD> {
               ]),
             ],
           ),
-        ),
-      ],
-    ));
+        ],
+      ),
+    );
+  }
+
+  void _onArCoreViewCreated(ArCoreController _arController) {
+    arCoreController = _arController;
+
+    _addCylindre(arCoreController);
+  }
+
+  void _addCylindre(ArCoreController _controller) {
+    final material = ArCoreMaterial(
+      color: Colors.red,
+      reflectance: 1.0,
+    );
+    final cylindre = ArCoreCylinder(
+      materials: [material],
+      radius: 0.5,
+      height: 0.3,
+    );
+    final node = ArCoreNode(
+      shape: cylindre,
+      position: vector.Vector3(0.0, -0.5, -2.0),
+    );
+    _controller.addArCoreNode(node);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    arCoreController.dispose();
   }
 }
